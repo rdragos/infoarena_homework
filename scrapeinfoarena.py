@@ -3,6 +3,13 @@ import requests
 import logging
 
 logger = logging.getLogger(__name__)
+
+class User(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+    def __repr__(self):
+        return "%s,%s" % (self.name, self.score)
 class Infoarena(object):
 
     index_url1 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1/clasament?rankings_display_entries=50&rankings_first_entry=0"
@@ -88,6 +95,8 @@ class Infoarena(object):
         return results
 
     def go_scrape(self):
+
+
         self.fetch_users(self.index_url1)
         self.fetch_users(self.index_url2)
         user_set = self.user_set
@@ -96,18 +105,14 @@ class Infoarena(object):
         #from pdb import set_trace; set_trace()
         f = open("archive.csv", "w")
 
-        for user_index in range(len(user_set)):
-            """
-            if (user_index % 5 == 0):
-                from time import sleep
-                sleep(20)
-            """
-            user = user_set[user_index]
+        allUsers = list()
 
+        for user_index in range(len(user_set)):
+            user_name = user_set[user_index]
             v = []
             for problem_group in total_problems:
                 points = 0
-                scores = zip(problem_group, self.getscore(problem_group, user))
+                scores = zip(problem_group, self.getscore(problem_group, user_name))
 
                 for problem in scores:
                     temp_score = problem[1]
@@ -126,7 +131,13 @@ class Infoarena(object):
             for i in range(1, len(v)):
                 total_score += v[i]
             total_score /= (len(v) - 1)
-            print (user +"," + str(total_score))
+            allUsers.append(User(user_name, total_score))
+            print (user_name +"," + str(total_score))
+
+        allUsers.sort(key = lambda x: x.score, reverse = True)
+        for cur_user in allUsers:
+            f.write(str(cur_user))
+            f.write("\n")
         """
         import json
         f = open("dump-result.json", "w")
