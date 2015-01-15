@@ -9,7 +9,7 @@ class Infoarena(object):
     index_url2 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1/clasament?rankings_display_entries=50&rankings_first_entry=50"
     #30 - 59 5
     #>60 10p
-    
+
     #pe fiecare grupa de problema 2/3 din probleme
     #media tutoror mai putin cel mai putin scor
 
@@ -58,7 +58,7 @@ class Infoarena(object):
     def fetch_users(self, index_url):
         #url_set = self.fetch_urls(self.index_url)
         page = self.fetch_url(index_url)
-        users = page('table.sortable .normal-user .username a') 
+        users = page('table.sortable .normal-user .username a')
         scores = page('table.sortable').find('.number.score')
 
         for i in range(len(users)):
@@ -68,19 +68,19 @@ class Infoarena(object):
                 continue
             self.score_set.append(scores.eq(i).text())
 
-    def getscore(self, problems, user): 
-        user_page = self.fetch_url('http://www.infoarena.ro/runda/teme_acmunibuc_2014_1?user='+user)  
+    def getscore(self, problems, user):
+        user_page = self.fetch_url('http://www.infoarena.ro/runda/teme_acmunibuc_2014_1?user='+user)
         results = []
         for problem in problems:
-            v = user_page('table.sortable .task a') 
+            v = user_page('table.sortable .task a')
             v = list(
                     filter(
-                    lambda element: 
+                    lambda element:
                     pq(element).attr('href').split('/')[-1] == problem, v)
                 )
             #print (problem, user)
             v =  pq(v[0]).parent().parent().parent().children().eq(3).text()
-            print (problem, v)
+            #print (problem, v)
             if v == 'N/A':
                 results.append(0)
             else:
@@ -88,7 +88,6 @@ class Infoarena(object):
         return results
 
     def go_scrape(self):
-        
         self.fetch_users(self.index_url1)
         self.fetch_users(self.index_url2)
         user_set = self.user_set
@@ -118,7 +117,7 @@ class Infoarena(object):
                         points += 10
                 L = len(problem_group)
 
-                grade = points / (2.0 * L * 10 / 3.0) 
+                grade = points / (2.0 * L * 10 / 3.0)
                 grade *= 10
                 v.append(min([11,grade]))
 
