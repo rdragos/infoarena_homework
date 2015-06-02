@@ -12,8 +12,8 @@ class User(object):
         return "%s,%s" % (self.name, self.score)
 class Infoarena(object):
 
-    index_url1 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1/clasament?rankings_display_entries=50&rankings_first_entry=0"
-    index_url2 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1/clasament?rankings_display_entries=50&rankings_first_entry=50"
+    index_url1 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1_2/clasament?rankings_display_entries=50&rankings_first_entry=0"
+    index_url2 = "http://www.infoarena.ro/runda/teme_acmunibuc_2014_1_2/clasament?rankings_display_entries=50&rankings_first_entry=50"
     #30 - 59 5
     #>60 10p
 
@@ -21,15 +21,14 @@ class Infoarena(object):
     #media tutoror mai putin cel mai putin scor
 
     problems = [
-        ('par', 'secv6', 'trompeta'),
-        ('tsunami', 'cifre4', 'queue'),
-        ('qtri', 'grarb', 'tamplar', 'berarii2'),
-        ('beri', 'taste', 'grid'),
-        ('criptare2', 'mere', 'tdeque', 'noname2'),
-        ('patrate6', 'algebra2', 'something'),
-        ('patrate3', 'loto', 'pariuri', 'secv5', 'arbore3'),
-        ('binar', 'alpin', 'pavare'),
-        ('timbre', 'lupu')
+        ('reinvent', 'banana', 'amici2'),
+        ('trilant', 'drumuri3', 'padure'),
+        ('catun', 'rfinv'),
+        ('base3', 'lanterna', 'coach'),
+        ('fotbal2', 'biti'),
+        ('ratphu', 'easygraph', 'asmax'),
+        ('permlcs', 'spatiu'),
+        ('java', 'senat', 'harta')
     ]
 
     score_set = []
@@ -76,7 +75,7 @@ class Infoarena(object):
             self.score_set.append(scores.eq(i).text())
 
     def getscore(self, problems, user):
-        user_page = self.fetch_url('http://www.infoarena.ro/runda/teme_acmunibuc_2014_1?user='+user)
+        user_page = self.fetch_url('http://www.infoarena.ro/runda/teme_acmunibuc_2014_1_2?user='+user)
         results = []
         for problem in problems:
             v = user_page('table.sortable .task a')
@@ -138,6 +137,7 @@ class Infoarena(object):
         for cur_user in allUsers:
             f.write(str(cur_user))
             f.write("\n")
+        f.close()
         """
         import json
         f = open("dump-result.json", "w")
