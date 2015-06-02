@@ -25,6 +25,7 @@ class Infoarena(object):
         ('trilant', 'drumuri3', 'padure'),
         ('catun', 'rfinv'),
         ('base3', 'lanterna', 'coach'),
+        ('clepsidra', 'plimbare', 'drumuri5'),
         ('fotbal2', 'biti'),
         ('ratphu', 'easygraph', 'asmax'),
         ('permlcs', 'spatiu'),
